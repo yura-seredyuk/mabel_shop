@@ -1,22 +1,58 @@
+from logging import raiseExceptions
 import psycopg2
+import re
 from settings import *
 from connection import Connection
 import datetime
 
+def checkEmail(email:str):
+    try:
+        if isinstance(email, str):
+            email_pattern = re.compile(r'^([a-zA-Z0-9-_\*\.]+)@([a-zA-Z0-9-]+)(\.[a-zA-Z0-9]+)+$')
+            matches = email_pattern.search(email)
+            if matches:
+                return email
+            else:
+                raise ValueError('Incorrect email for SuperAdmin!')
+        else:
+            raise TypeError('Incorrect email data type for SuperAdmin!')
+    except Exception as e:
+        print(e)
+
+def checkPassword(password:str):
+    try:
+        if isinstance(password, str):
+            password_pattern = re.compile(r'^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{6,}))|((?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9])(?=.{8,}))$')
+            matches = password_pattern.search(password)
+            if matches:
+                return password
+            else:
+                raise ValueError('Incorrect password for SuperAdmin!')
+        else:
+            raise TypeError('Incorrect password data type for SuperAdmin!')
+    except Exception as e:
+        print(e)
+
 class SuperAdmin(Connection):
 
-    def __init__(self, login, password):
-        self.login = login
-        self.password = password
+    def __init__(self, login:str, password:str):
+        self.login = checkEmail(login)
+        self.password = checkPassword(password)
 
     def add_admin(self, admin_data):
         table = 'users'
         result = self._postData(table, admin_data)
         return result
 
+    def delete_admin(self, selector):
+        table = 'users'
+        selector = f"id = '{selector}'"
+        result = self.deleteData(table,selector)
+        return result
+
 class Admin(Connection):
 
-    def __init__(self, login, password):
+    def __init__(self, login:str, password:str):
         self.login = login
         self.password = password
 
@@ -86,7 +122,8 @@ if __name__ == '__main__':
     # admin_1 = Admin('Bad','BOB')
     # admin_1.add_admin(admin_1_data)
 
-    # admin_1 = SuperAdmin('Bad','BOB').add_admin(admin_1_data)
+    admin_1 = SuperAdmin('opa@mail.dog', 'Sd111%11')
+    # .add_admin(admin_1_data)
 
     admin_2 = Admin("opa@mail.dog","123")
     # admin_2.login_self()
@@ -101,5 +138,6 @@ if __name__ == '__main__':
     # edit = admin_2.edit_pr_category(data, "category_name = 'Water'")
     # print(edit)
 
-    dele = admin_2.delete_pr_category('wardrobe')
-    print(dele)
+    # dele = admin_2.delete_pr_category('wardrobe')
+    # print(dele)
+    
