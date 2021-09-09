@@ -1,5 +1,7 @@
 import psycopg2
 from settings import *
+from validation import Validate, USERS
+
 
 class Connection():
 
@@ -33,6 +35,7 @@ class Connection():
         fields.append('id')
         values = ''
         for row in data:
+            Validate().validate(row, USERS, table)
             value = f"""({','.join(map(lambda item: f"'{item}'" ,row.values()))}, {next_id}),"""
             next_id += 1
             values += value
@@ -68,7 +71,7 @@ class Connection():
     def getNextId(self, table):
         table = (table,)
         fields = ('id',)
-        print(self.getData(table, fields))
+        # print(self.getData(table, fields))
         if self.getData(table, fields) == []:
             return 1
         result = self.getData(table, fields)[-1][0] + 1

@@ -2,6 +2,8 @@ import unittest
 import re
 from methods import Admin, SuperAdmin
 from connection import Connection
+from validation import Validate, USERS
+
 
 class SuperAdminTests(unittest.TestCase):
     # valid data
@@ -9,14 +11,27 @@ class SuperAdminTests(unittest.TestCase):
     VALID_PASSWORD = 'AQwe12!_'
 
     ADMIN_DATA = [{
+            "first_name":"Bob",
+            "last_name":"Bobb",
+            "date_of_bitrth":"2-5-1684",
+            "phone":"+380123456789",
+            "address":"Some  15 st. 17 app.",
+            "password":"Qwewe123!3",
+            "email":"opa@mail.dog",
+            "role":"admin",
+            "discount":20
+        }]
+
+
+    INVALID_ADMIN_DATA = [{
         "first_name":"Bill",
         "last_name":"Bobb",
         "date_of_bitrth":"02.05.1684",
-        "phone":"+803254",
-        "address":"Streee1",
-        "password":"123",
+        # "phone":"+803254",
+        # "address":"Streee1",
+        # "password":"123",
         "email":"opa@mail.dog",
-        "role":"admin",
+        "role":"someone",
         "discount":"20"
     }]
 
@@ -39,6 +54,9 @@ class SuperAdminTests(unittest.TestCase):
         selector = Connection().getNextId(table)-1
         self.super_admin.delete_admin(selector)
 
+    # def validate_fields(self, request, model, model_name):
+    #     for 
+
     def test_create_SuperAdmin(self):
         super_admin_val = SuperAdmin(self.VALID_EMAIL, self.VALID_PASSWORD)
         self.assertIsInstance(super_admin_val, SuperAdmin)
@@ -56,10 +74,19 @@ class SuperAdminTests(unittest.TestCase):
         print('Test 1.2: pass.')
 
     def test_add_admin(self):
+        Validate().validate(self.ADMIN_DATA[0], USERS, 'Users')
         response = self.super_admin.add_admin(self.ADMIN_DATA)
         self.assertEqual(response, 'Insert done!')
         print('Test 1.3: pass.')
         # self.clear_record('users')
+
+    def test_add_invalid_admin(self):
+        Validate().validate(self.INVALID_ADMIN_DATA[0], USERS, 'Users')
+        response = self.super_admin.add_admin(self.INVALID_ADMIN_DATA)
+        self.assertEqual(response, 'Insert done!')
+        print('Test 1.3: pass.')
+        # self.clear_record('users')
+
 
 class AdminTests(unittest.TestCase):  
     pass      

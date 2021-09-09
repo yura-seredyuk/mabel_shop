@@ -4,21 +4,26 @@ super_admin:
     - create tables
     - add admin
     - login
+    - log_out
 admin:
     - fill tables
     - change data
     - delete data
     - get data by filter
     - login
+    - log_out
 
 unregistered_user:
     - register
+    - login
+    - log_out
     - get data by filter
 
 registered_user
     - buy product
     - discount card
     - login
+    - log_out
 
 # DB model
 users 

@@ -18,7 +18,7 @@ def checkEmail(email:str):
             raise TypeError('Incorrect email data type for SuperAdmin!')
     except Exception as e:
         print(e)
-
+ 
 def checkPassword(password:str):
     try:
         if isinstance(password, str):
@@ -112,20 +112,20 @@ if __name__ == '__main__':
         "first_name":"Billssss",
         "last_name":"Bobb",
         "date_of_bitrth":"02.05.1684",
-        "phone":"+803254",
-        "address":"Streee1",
-        "password":"123",
+        "phone":"+380123456789",
+        "address":"Some  15 st. 17 app.",
+        "password":"Qwewe123!3",
         "email":"opa@mail.dog",
         "role":"admin",
-        "discount":"20"
+        "discount": 20
     }]
     # admin_1 = Admin('Bad','BOB')
     # admin_1.add_admin(admin_1_data)
 
     admin_1 = SuperAdmin('opa@mail.dog', 'Sd111%11')
-    # .add_admin(admin_1_data)
+    admin_1.add_admin(admin_1_data)
 
-    admin_2 = Admin("opa@mail.dog","123")
+    # admin_2 = Admin("opa@mail.dog","123")
     # admin_2.login_self()
 
     # rez = admin_2.get_order_info(category='o.date_of_order', selector="2021-09-02")

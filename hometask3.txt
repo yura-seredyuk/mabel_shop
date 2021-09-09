@@ -1,0 +1,7 @@
+CLASSWORK: https://github.com/yura-seredyuk/mabel_shop
+        commit: Add unit tests for SuperAdmin methods
+
+
+Додати для усіх таблиць із бази даних моделі для валідації.
+
+Додати валідацію полів та даних для методів GET/UPDATE/DELETE
